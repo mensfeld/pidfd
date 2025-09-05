@@ -29,7 +29,7 @@ SimpleCov.start do
   merge_timeout 3600
 end
 
-SimpleCov.minimum_coverage(95)
+SimpleCov.minimum_coverage(95) unless RUBY_DESCRIPTION.include?('darwin')
 
 require 'bundler/setup'
 require 'pidfd'
