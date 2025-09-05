@@ -1,4 +1,4 @@
-name: CI Linux x86_64 GNU
+name: CI
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -45,12 +45,13 @@ jobs:
 
   specs:
     timeout-minutes: 10
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     env:
       BUNDLE_FORCE_RUBY_PLATFORM: ${{ matrix.force_ruby_platform }}
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-latest]
         ruby:
           - '3.5.0-preview1'
           - '3.4'
@@ -62,6 +63,9 @@ jobs:
         include:
           - ruby: '3.4'
             coverage: 'true'
+          - os: macos-latest
+            ruby: '3.4'
+            force_ruby_platform: true
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
