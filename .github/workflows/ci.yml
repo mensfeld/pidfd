@@ -61,7 +61,8 @@ jobs:
           - true
           - false
         include:
-          - ruby: '3.4'
+          - os: ubuntu-latest
+            ruby: '3.4'
             coverage: 'true'
           - os: macos-latest
             ruby: '3.4'
