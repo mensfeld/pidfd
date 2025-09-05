@@ -2,5 +2,5 @@
 
 class Pidfd
   # Current version of the pidfd gem
-  VERSION = '0.6.0'
+  VERSION = '1.0.0'
 end

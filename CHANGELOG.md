@@ -1,5 +1,8 @@
 # Pidfd Changelog
 
+## 1.0.0 (2025-09-05)
+- [Change] No changes. Just versioning update.
+
 ## 0.6.0 (2025-09-05)
 - [Breaking] **BREAKING CHANGE**: Moved main API from `Pidfd::Pidfd` to `Pidfd` class
   - Old: `pidfd = Pidfd::Pidfd.new(pid)` → New: `pidfd = Pidfd.new(pid)`
