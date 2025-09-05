@@ -53,6 +53,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         ruby:
+          - '3.5.0-preview1'
           - '3.4'
           - '3.3'
           - '3.2'
@@ -68,6 +69,10 @@ jobs:
             force_ruby_platform: true
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Remove Gemfile.lock for Ruby preview versions
+        if: contains(matrix.ruby, 'preview')
+        run: rm -f Gemfile.lock
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@44511735964dcb71245e7e55f72539531f7bc0eb # v1.257.0
