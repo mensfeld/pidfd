@@ -1,0 +1,94 @@
+name: CI Linux x86_64 GNU
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron:  '0 1 * * *'
+
+permissions:
+  contents: read
+
+env:
+  BUNDLE_RETRY: 6
+  BUNDLE_JOBS: 4
+
+jobs:
+  coditsu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          fetch-depth: 0
+      - name: Download Coditsu script
+        run: |
+          curl -sSL https://api.coditsu.io/run/ci -o coditsu_script.sh
+          chmod +x coditsu_script.sh
+      - name: Verify Coditsu script checksum
+        run: |
+          EXPECTED_SHA256="0aecc5aa010f53fca264548a41467a2b0a1208d750ce1da3e98a217304cacbbc"
+
+          ACTUAL_SHA256=$(sha256sum coditsu_script.sh | awk '{ print $1 }')
+          if [ "$ACTUAL_SHA256" != "$EXPECTED_SHA256" ]; then
+            echo "::error::Checksum verification failed. Expected $EXPECTED_SHA256 but got $ACTUAL_SHA256."
+            exit 1
+          fi
+      - name: Run Coditsu
+        run: ./coditsu_script.sh
+
+  specs:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    env:
+      BUNDLE_FORCE_RUBY_PLATFORM: ${{ matrix.force_ruby_platform }}
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby:
+          - '3.5.0-preview1'
+          - '3.4'
+          - '3.3'
+          - '3.2'
+        force_ruby_platform:
+          - true
+          - false
+        include:
+          - ruby: '3.4'
+            coverage: 'true'
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@efbf473cab83af4468e8606cc33eca9281bb213f # v1.256.0
+        with:
+          ruby-version: ${{matrix.ruby}}
+          bundler-cache: true
+          bundler: 'latest'
+
+      - name: Run all specs
+        env:
+          GITHUB_COVERAGE: ${{matrix.coverage}}
+        run: bundle exec rspec
+
+  ci-success:
+    name: CI Success
+    runs-on: ubuntu-latest
+    if: always()
+    needs:
+      - coditsu
+      - specs
+    steps:
+      - name: Check all jobs passed
+        if: |
+          contains(needs.*.result, 'failure') ||
+          contains(needs.*.result, 'cancelled') ||
+          contains(needs.*.result, 'skipped')
+        run: exit 1
+      - run: echo "All CI checks passed!"
