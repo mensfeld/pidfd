@@ -12,6 +12,7 @@ Process file descriptors (pidfd) were introduced in Linux 5.3 (2019) to solve fu
 ### The Problem with PIDs
 
 Traditional Unix PIDs have a critical flaw: **PID reuse**. When a process dies, its PID can be immediately reassigned to a new, unrelated process. This creates race conditions where:
+
 - You might send signals to the wrong process
 - Process state checks become unreliable
 - Security vulnerabilities can arise from PID confusion
@@ -206,22 +207,11 @@ end
 ## Security
 
 Pidfd provides significant security improvements:
+
 - Prevents signal delivery to wrong processes
 - Eliminates PID confusion attacks
 - Provides capability-based process references
 - Works with Linux security modules (SELinux, AppArmor)
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/mensfeld/pidfd.
-
-### Running Tests
-
-```bash
-bundle exec rspec
-```
-
-Tests require a Linux environment with pidfd support.
 
 ## Further Reading
 
