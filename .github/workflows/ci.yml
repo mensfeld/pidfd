@@ -53,7 +53,6 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         ruby:
-          - '3.5.0-preview1'
           - '3.4'
           - '3.3'
           - '3.2'
