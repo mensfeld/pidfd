@@ -26,7 +26,7 @@ RSpec.describe Pidfd do
 
   context 'when on supported platform', unless: RUBY_DESCRIPTION.include?('darwin') do
       context 'when fork is already dead' do
-      subject(:pidfd) { described_class.new(fork {}) }
+      subject(:pidfd) { described_class.new(fork { nil }) }
 
       # Give the fork time to die
       before do
@@ -58,7 +58,7 @@ RSpec.describe Pidfd do
     end
 
     context 'when we try to clean an already cleaned fork' do
-      subject(:pidfd) { described_class.new(fork {}) }
+      subject(:pidfd) { described_class.new(fork { nil }) }
 
       before do
         pidfd
@@ -70,7 +70,7 @@ RSpec.describe Pidfd do
     end
 
     context 'when we try to send a signal to an already cleaned fork' do
-      subject(:pidfd) { described_class.new(fork {}) }
+      subject(:pidfd) { described_class.new(fork { nil }) }
 
       before do
         pidfd
