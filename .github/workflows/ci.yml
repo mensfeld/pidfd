@@ -59,7 +59,7 @@ jobs:
           bundler: 'latest'
 
       - name: Run yard-lint
-        run: bundle exec yard-lint
+        run: bundle exec yard-lint lib/
 
   specs:
     timeout-minutes: 10
