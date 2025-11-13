@@ -1,0 +1,92 @@
+# YARD-Lint Configuration
+# Restrictive configuration requiring 100% documentation coverage with all validators as errors
+
+AllValidators:
+  YardOptions:
+    - --private
+    - --protected
+  Exclude:
+    - 'vendor/**/*'
+    - 'spec/**/*'
+  FailOnSeverity: error
+  MinCoverage: 100.0
+
+# Documentation Validators - All set to error
+Documentation/UndocumentedObjects:
+  Enabled: true
+  Severity: error
+
+Documentation/UndocumentedMethodArguments:
+  Enabled: true
+  Severity: error
+
+Documentation/UndocumentedBooleanMethods:
+  Enabled: true
+  Severity: error
+
+Documentation/UndocumentedOptions:
+  Enabled: true
+  Severity: error
+
+Documentation/MarkdownSyntax:
+  Enabled: true
+  Severity: error
+
+# Tags Validators - All set to error
+Tags/Order:
+  Enabled: true
+  Severity: error
+
+Tags/InvalidTypes:
+  Enabled: true
+  Severity: error
+
+Tags/TypeSyntax:
+  Enabled: true
+  Severity: error
+
+Tags/MeaninglessTag:
+  Enabled: true
+  Severity: error
+
+Tags/CollectionType:
+  Enabled: true
+  Severity: error
+
+Tags/TagTypePosition:
+  Enabled: true
+  Severity: error
+
+Tags/ApiTags:
+  Enabled: true
+  Severity: error
+
+Tags/OptionTags:
+  Enabled: true
+  Severity: error
+
+Tags/ExampleSyntax:
+  Enabled: true
+  Severity: error
+
+Tags/RedundantParamDescription:
+  Enabled: true
+  Severity: error
+
+# Warnings Validators - All set to error
+Warnings/UnknownTag:
+  Enabled: true
+  Severity: error
+
+Warnings/UnknownDirective:
+  Enabled: true
+  Severity: error
+
+Warnings/InvalidTagFormat:
+  Enabled: true
+  Severity: error
+
+# Semantic Validators - All set to error
+Semantic/AbstractMethods:
+  Enabled: true
+  Severity: error

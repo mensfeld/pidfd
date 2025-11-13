@@ -43,6 +43,24 @@ jobs:
       - name: Run Coditsu
         run: ./coditsu_script.sh
 
+  yard-lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@d5126b9b3579e429dd52e51e68624dda2e05be25 # v1.267.0
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true
+          bundler: 'latest'
+
+      - name: Run yard-lint
+        run: bundle exec yard-lint lib/
+
   specs:
     timeout-minutes: 10
     runs-on: ${{ matrix.os }}
@@ -92,6 +110,7 @@ jobs:
     if: always()
     needs:
       - coditsu
+      - yard-lint
       - specs
     steps:
       - name: Check all jobs passed
