@@ -6,12 +6,13 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
-  gem 'bundler', '>= 2.0'
-  gem 'rake', '>= 13.0'
+  gem 'bundler'
+  gem 'rake'
 end
 
 group :test do
-  gem 'rspec', '>= 3.12'
-  gem 'simplecov', '>= 0.22'
-  gem 'warning', '>= 1.3'
+  gem 'rspec'
+  gem 'simplecov'
+  gem 'warning'
+  gem 'yard-lint'
 end
