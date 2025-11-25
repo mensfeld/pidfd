@@ -6,16 +6,9 @@
   "ignorePaths": [
     "spec/integrations"
   ],
+  "minimumReleaseAge": "7 days",
   "github-actions": {
     "enabled": true,
     "pinDigests": true
-  },
-  "packageRules": [
-    {
-      "matchManagers": [
-        "github-actions"
-      ],
-      "minimumReleaseAge": "7 days"
-    }
-  ]
+  }
 }
