@@ -8,7 +8,7 @@ AllValidators:
   Exclude:
     - 'vendor/**/*'
     - 'spec/**/*'
-  FailOnSeverity: error
+  FailOnSeverity: convention
   MinCoverage: 100.0
 
 # Documentation Validators - All set to error
