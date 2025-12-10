@@ -3,6 +3,7 @@
 require 'ffi'
 
 # Main class that wraps Linux pidfd functionality for Ruby
+# @api public
 class Pidfd
   extend FFI::Library
 
@@ -32,21 +33,26 @@ class Pidfd
   # Default syscall numbers for x86_64 Linux
   # These can be overridden if needed for different architectures
   # Pidfd open call number
+  # @api public
   DEFAULT_PIDFD_OPEN_SYSCALL = 434
 
   # Pidfd signal call number
+  # @api public
   DEFAULT_PIDFD_SIGNAL_SYSCALL = 424
 
   private_constant :P_PIDFD, :WEXITED
 
   class << self
     # @return [Integer] syscall number for pidfd_open
+    # @api public
     attr_accessor :pidfd_open_syscall
 
     # @return [Integer] syscall number for pidfd_signal
+    # @api public
     attr_accessor :pidfd_signal_syscall
 
     # @return [Boolean] true if syscall is supported via FFI
+    # @api public
     def supported?
       # If we were not even able to load the FFI C lib, it won't be supported
       return false unless API_SUPPORTED
@@ -71,6 +77,7 @@ class Pidfd
   self.pidfd_signal_syscall = DEFAULT_PIDFD_SIGNAL_SYSCALL
 
   # @param pid [Integer] pid of the node we want to work with
+  # @api public
   def initialize(pid)
     @mutex = Mutex.new
 
@@ -80,6 +87,7 @@ class Pidfd
   end
 
   # @return [Boolean] true if given process is alive, false if no longer
+  # @api public
   def alive?
     @pidfd_select ||= [@pidfd_io]
 
@@ -98,6 +106,7 @@ class Pidfd
 
   # Cleans the zombie process
   # @note This should run **only** on processes that exited, otherwise will wait
+  # @api public
   def cleanup
     @mutex.synchronize do
       return if @cleaned
@@ -117,6 +126,7 @@ class Pidfd
   # @return [Boolean] true if signal was sent, otherwise false or error raised. `false`
   #   returned when we attempt to send a signal to a dead process
   # @note It will not send signals to dead processes
+  # @api public
   def signal(sig_name)
     @mutex.synchronize do
       return false if @cleaned
