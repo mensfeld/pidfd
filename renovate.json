@@ -10,5 +10,15 @@
   "github-actions": {
     "enabled": true,
     "pinDigests": true
-  }
+  },
+  "packageRules": [
+    {
+      "description": "Group ruby/setup-ruby action with ruby version updates",
+      "matchPackageNames": [
+        "ruby/setup-ruby",
+        "ruby"
+      ],
+      "groupName": "ruby setup"
+    }
+  ]
 }
