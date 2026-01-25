@@ -48,6 +48,8 @@ jobs:
     timeout-minutes: 5
     strategy:
       fail-fast: false
+    env:
+      BUNDLE_GEMFILE: Gemfile.lint
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
