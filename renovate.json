@@ -7,6 +7,7 @@
     ".ruby-version",
     "Gemfile",
     "Gemfile.lint",
+    "pidfd.gemspec",
     ".github/workflows/**"
   ],
   "ignorePaths": [
