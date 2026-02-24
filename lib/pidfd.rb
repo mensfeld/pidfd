@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'ffi'
+require "ffi"
 
 # Main class that wraps Linux pidfd functionality for Ruby
 # @api public
@@ -57,7 +57,7 @@ class Pidfd
       # If we were not even able to load the FFI C lib, it won't be supported
       return false unless API_SUPPORTED
       # Won't work on macOS because it does not support pidfd
-      return false if RUBY_DESCRIPTION.include?('darwin')
+      return false if RUBY_DESCRIPTION.include?("darwin")
       # Won't work on Windows for the same reason as on macOS
       return false if RUBY_DESCRIPTION.match?(/mswin|ming|cygwin/)
 
@@ -165,5 +165,5 @@ class Pidfd
   end
 end
 
-require_relative 'pidfd/version'
-require_relative 'pidfd/errors'
+require_relative "pidfd/version"
+require_relative "pidfd/errors"

@@ -1,3 +1,0 @@
-repository_id: '3476b8f8-ce49-4ae2-8eb3-60c244b6074f'
-api_key: <%= ENV['CODITSU_API_KEY'] %>
-api_secret: <%= ENV['CODITSU_API_SECRET'] %>
