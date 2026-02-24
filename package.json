@@ -1,0 +1,9 @@
+{
+  "name": "pidfd",
+  "version": "1.0.0",
+  "description": "CI dependencies for pidfd",
+  "private": true,
+  "devDependencies": {
+    "lostconf": "0.4.0"
+  }
+}

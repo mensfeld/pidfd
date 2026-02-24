@@ -4,13 +4,13 @@ RSpec.describe Pidfd do
   let(:pidfd) { nil }
 
   after do
-    pidfd&.signal('KILL')
+    pidfd&.signal("KILL")
     pidfd&.cleanup
   end
 
-  context 'when checking if supported' do
-    it 'returns false on unsupported platforms' do
-      if RUBY_DESCRIPTION.include?('darwin')
+  context "when checking if supported" do
+    it "returns false on unsupported platforms" do
+      if RUBY_DESCRIPTION.include?("darwin")
         expect(described_class.supported?).to be(false)
       else
         expect(described_class.supported?).to be(true)
@@ -18,14 +18,14 @@ RSpec.describe Pidfd do
     end
   end
 
-  context 'when on unsupported platform', if: RUBY_DESCRIPTION.include?('darwin') do
-    it 'raises error when trying to create pidfd' do
+  context "when on unsupported platform", if: RUBY_DESCRIPTION.include?("darwin") do
+    it "raises error when trying to create pidfd" do
       expect { described_class.new(Process.pid) }.to raise_error(Pidfd::Errors::PidfdOpenFailedError)
     end
   end
 
-  context 'when on supported platform', unless: RUBY_DESCRIPTION.include?('darwin') do
-      context 'when fork is already dead' do
+  context "when on supported platform", unless: RUBY_DESCRIPTION.include?("darwin") do
+    context "when fork is already dead" do
       subject(:pidfd) { described_class.new(fork { nil }) }
 
       # Give the fork time to die
@@ -35,21 +35,21 @@ RSpec.describe Pidfd do
       end
 
       it { expect(pidfd.alive?).to be(false) }
-      it { expect(pidfd.signal('TERM')).to be(false) }
+      it { expect(pidfd.signal("TERM")).to be(false) }
       it { expect { pidfd.cleanup }.not_to raise_error }
     end
 
-    context 'when fork is alive and we decide to kill it' do
+    context "when fork is alive and we decide to kill it" do
       subject(:pidfd) { described_class.new(fork { sleep(60) }) }
 
       before { pidfd }
 
       it { expect(pidfd.alive?).to be(true) }
-      it { expect(pidfd.signal('TERM')).to be(true) }
+      it { expect(pidfd.signal("TERM")).to be(true) }
 
-      context 'when fork was killed by us' do
+      context "when fork was killed by us" do
         before do
-          pidfd.signal('KILL')
+          pidfd.signal("KILL")
           sleep(0.5)
         end
 
@@ -57,7 +57,7 @@ RSpec.describe Pidfd do
       end
     end
 
-    context 'when we try to clean an already cleaned fork' do
+    context "when we try to clean an already cleaned fork" do
       subject(:pidfd) { described_class.new(fork { nil }) }
 
       before do
@@ -69,7 +69,7 @@ RSpec.describe Pidfd do
       it { expect { pidfd.cleanup }.not_to raise_error }
     end
 
-    context 'when we try to send a signal to an already cleaned fork' do
+    context "when we try to send a signal to an already cleaned fork" do
       subject(:pidfd) { described_class.new(fork { nil }) }
 
       before do
@@ -81,10 +81,10 @@ RSpec.describe Pidfd do
         allow(IO).to receive(:select).and_return(nil)
       end
 
-      it { expect(pidfd.signal('TERM')).to be(false) }
+      it { expect(pidfd.signal("TERM")).to be(false) }
     end
 
-    context 'when we could not open a pid' do
+    context "when we could not open a pid" do
       it { expect { described_class.new(0) }.to raise_error(Pidfd::Errors::PidfdOpenFailedError) }
     end
   end
