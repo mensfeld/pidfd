@@ -8,7 +8,8 @@
     "Gemfile",
     "Gemfile.lint",
     "pidfd.gemspec",
-    ".github/workflows/**"
+    ".github/workflows/**",
+    "package.json"
   ],
   "ignorePaths": [
     "spec/integrations"
