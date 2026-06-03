@@ -1,5 +1,8 @@
 # Pidfd Changelog
 
+## Unreleased
+- [Enhancement] Use dynamic Ruby warning category opt-in in test helpers
+
 ## 1.0.0 (2025-09-05)
 - [Change] No changes. Just versioning update.
 

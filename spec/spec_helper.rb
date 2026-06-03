@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
-Warning[:performance] = true if RUBY_VERSION >= "3.3"
-Warning[:deprecated] = true
+require "warning"
+
 $VERBOSE = true
 
-require "warning"
+if Warning.respond_to?(:categories)
+  (Warning.categories - %i[experimental]).each do |cat|
+    Warning[cat] = true
+  end
+end
 
 Warning.process do |warning|
   next unless warning.include?(Dir.pwd)
