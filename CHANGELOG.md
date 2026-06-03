@@ -1,5 +1,7 @@
 # Pidfd Changelog
 
+- Enhancement: Use dynamic Ruby warning category opt-in in tests (mensfeld)
+
 ## 1.0.0 (2025-09-05)
 - [Change] No changes. Just versioning update.
 
