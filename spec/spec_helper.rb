@@ -24,11 +24,11 @@ require "simplecov"
 
 # Don't include unnecessary stuff into SimpleCov
 SimpleCov.start do
-  add_filter "/vendor/"
-  add_filter "/gems/"
-  add_filter "/.bundle/"
-  add_filter "/doc/"
-  add_filter "/spec/"
+  skip "/vendor/"
+  skip "/gems/"
+  skip "/.bundle/"
+  skip "/doc/"
+  skip "/spec/"
 
   merge_timeout 3600
 end
