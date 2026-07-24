@@ -30,9 +30,8 @@ class Pidfd
   # Wait for child processes that have exited
   WEXITED = 4
 
-  # Default syscall numbers for x86_64 Linux
-  # These can be overridden if needed for different architectures
-  # Pidfd open call number
+  # Default syscall numbers for x86_64 Linux. These can be overridden if needed for different
+  # architectures. Pidfd open call number
   # @api public
   DEFAULT_PIDFD_OPEN_SYSCALL = 434
 
