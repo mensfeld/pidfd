@@ -1,6 +1,7 @@
 # Pidfd Changelog
 
 ## Unreleased
+- [Breaking] Drop support for Ruby 3.2 (EOL March 2026). Minimum required Ruby is now 3.3.
 - [Enhancement] Use dynamic Ruby warning category opt-in in test helpers
 
 ## 1.0.0 (2025-09-05)
