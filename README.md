@@ -64,7 +64,7 @@ gem install pidfd
 ## Requirements
 
 - Linux kernel 5.3 or newer
-- Ruby 3.2 or newer
+- Ruby 3.3 or newer
 - FFI gem
 
 ## Usage
