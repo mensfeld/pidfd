@@ -24,7 +24,7 @@ Pidfds provide a **stable reference** to a process that remains valid even if th
 - **Race-free signal delivery** - Signals always go to the intended process
 - **Reliable process monitoring** - Know definitively when a process exits
 - **Thread-safe operations** - No TOCTTOU races
-- **Pollable file descriptors** - Integrate with event loops efficiently
+- **Pollable file descriptors** - The kernel marks a pidfd readable when its process exits
 
 ## When to Use This Gem
 
@@ -115,13 +115,13 @@ pidfd = Pidfd.new(pid)
 pidfd.signal('TERM') # Guaranteed to hit the right process or fail safely
 ```
 
-### Integration with Event Loops
+### Waiting for a Process to Exit
+
+`Pidfd` does not expose its file descriptor, so you cannot pass a `Pidfd` to `IO.select` or an event loop. `alive?` does not block: it checks the pidfd with a zero timeout. To wait for a process to exit, poll `alive?`:
 
 ```ruby
-# Pidfd provides a pollable file descriptor
 pidfd = Pidfd.new(child_pid)
 
-# Use with IO.select for non-blocking monitoring
 loop do
   if pidfd.alive?
     # Process still running
@@ -202,7 +202,7 @@ end
 - **Efficient**: Pidfd operations are kernel-level, very fast
 - **Low overhead**: Minimal memory usage per pidfd
 - **Scalable**: Handles thousands of processes efficiently
-- **Non-blocking**: Supports async operation patterns
+- **Non-blocking**: `alive?` returns at once and never waits for the process
 
 ## Security
 
