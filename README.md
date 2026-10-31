@@ -202,7 +202,7 @@ end
 - **Efficient**: Pidfd operations are kernel-level, very fast
 - **Low overhead**: Minimal memory usage per pidfd
 - **Scalable**: Handles thousands of processes efficiently
-- **Non-blocking**: the `alive?` check uses a zero timeout and does not wait for the process to exit
+- **Non-blocking**: The `alive?` check uses a zero timeout and does not wait for the process to exit
 
 ## Security
 
