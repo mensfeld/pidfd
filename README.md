@@ -117,7 +117,7 @@ pidfd.signal('TERM') # Guaranteed to hit the right process or fail safely
 
 ### Waiting for a Process to Exit
 
-`Pidfd` does not expose its file descriptor, so you cannot pass a `Pidfd` to `IO.select` or an event loop. `alive?` does not block: it checks the pidfd with a zero timeout. To wait for a process to exit, poll `alive?`:
+`Pidfd` does not expose its file descriptor, so you cannot pass a `Pidfd` to `IO.select` or an event loop. `alive?` checks the pidfd with a zero timeout, so the check does not wait for the process to exit. To wait for a process to exit, poll `alive?`:
 
 ```ruby
 pidfd = Pidfd.new(child_pid)
@@ -202,7 +202,7 @@ end
 - **Efficient**: Pidfd operations are kernel-level, very fast
 - **Low overhead**: Minimal memory usage per pidfd
 - **Scalable**: Handles thousands of processes efficiently
-- **Non-blocking**: `alive?` returns at once and never waits for the process
+- **Non-blocking**: the `alive?` check uses a zero timeout and does not wait for the process to exit
 
 ## Security
 
