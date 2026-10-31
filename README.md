@@ -146,6 +146,8 @@ else
 end
 ```
 
+`Pidfd.supported?` tests only `pidfd_open`, so it also returns `true` on Linux 5.3. On 5.3, `#cleanup` does not reap the process, because `waitid(P_PIDFD)` needs Linux 5.4. If your code can run on 5.3, check the kernel version yourself.
+
 ### Fallback Strategy
 
 ```ruby
