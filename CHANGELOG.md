@@ -3,6 +3,7 @@
 ## Unreleased
 - [Breaking] Drop support for Ruby 3.2 (EOL March 2026). Minimum required Ruby is now 3.3.
 - [Enhancement] Use dynamic Ruby warning category opt-in in test helpers
+- [Change] Document Linux 5.4 as the minimum kernel. `#cleanup` uses `waitid(P_PIDFD)`, which Linux supports since 5.4. Earlier entries stated 5.3.
 
 ## 1.0.0 (2025-09-05)
 - [Change] No changes. Just versioning update.

@@ -38,7 +38,7 @@ Use pidfd when you need:
 
 Don't use pidfd for:
 - macOS or Windows (Linux-only feature)
-- Kernels older than Linux 5.3
+- Kernels older than Linux 5.4
 - Simple parent-child relationships (traditional wait works fine)
 
 ## Installation
@@ -63,7 +63,7 @@ gem install pidfd
 
 ## Requirements
 
-- Linux kernel 5.3 or newer
+- Linux kernel 5.4 or newer
 - Ruby 3.3 or newer
 - FFI gem
 
