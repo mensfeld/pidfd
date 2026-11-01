@@ -38,7 +38,7 @@ Use pidfd when you need:
 
 Don't use pidfd for:
 - macOS or Windows (Linux-only feature)
-- Kernels older than Linux 5.3
+- Kernels older than Linux 5.4
 - Simple parent-child relationships (traditional wait works fine)
 
 ## Installation
@@ -63,7 +63,7 @@ gem install pidfd
 
 ## Requirements
 
-- Linux kernel 5.3 or newer
+- Linux kernel 5.4 or newer
 - Ruby 3.3 or newer
 - FFI gem
 
@@ -145,6 +145,8 @@ else
   puts "pidfd is not available (wrong OS or kernel version)"
 end
 ```
+
+`Pidfd.supported?` tests only `pidfd_open`, so it also returns `true` on Linux 5.3. On 5.3, `#cleanup` does not reap the process, because `waitid(P_PIDFD)` needs Linux 5.4. If your code can run on 5.3, check the kernel version yourself.
 
 ### Fallback Strategy
 
