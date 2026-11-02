@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pidfd (1.0.0)
+    pidfd (1.0.1)
       ffi (>= 1.15)
 
 GEM
