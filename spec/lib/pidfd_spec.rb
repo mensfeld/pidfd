@@ -57,6 +57,51 @@ RSpec.describe Pidfd do
       end
     end
 
+    context "when cleaning up a fork that is still alive" do
+      subject(:pidfd) { described_class.new(pid) }
+
+      let(:pid) { fork { sleep(1) } }
+
+      before { pidfd }
+
+      it "does not block other threads while waiting" do
+        ticks = []
+        ticker = Thread.new do
+          loop do
+            ticks << Process.clock_gettime(Process::CLOCK_MONOTONIC)
+            sleep(0.05)
+          end
+        end
+
+        sleep(0.1)
+        Thread.new { pidfd.cleanup }.join
+        ticker.kill
+        ticker.join
+
+        expect(ticks.each_cons(2).map { |a, b| b - a }.max).to be < 0.5
+      end
+
+      context "when a trapped signal arrives during the wait" do
+        let(:previous_handler) { trap("CHLD") { nil } }
+
+        before { previous_handler }
+
+        after { trap("CHLD", previous_handler) }
+
+        it "waits for the fork to exit and reaps it" do
+          started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+          other = fork { sleep(0.2) }
+
+          pidfd.cleanup
+
+          expect(Process.clock_gettime(Process::CLOCK_MONOTONIC) - started_at).to be >= 0.9
+          expect { Process.waitpid(pid, Process::WNOHANG) }.to raise_error(Errno::ECHILD)
+        ensure
+          Process.wait(other)
+        end
+      end
+    end
+
     context "when we try to clean an already cleaned fork" do
       subject(:pidfd) { described_class.new(fork { nil }) }
 
