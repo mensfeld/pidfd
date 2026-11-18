@@ -102,6 +102,23 @@ RSpec.describe Pidfd do
       end
     end
 
+    context "when the fork was already reaped elsewhere" do
+      # Not named pidfd, so the outer after hook does not call cleanup again when this one fails
+      subject(:reaped) { described_class.new(pid) }
+
+      let(:pid) { fork { nil } }
+
+      before do
+        reaped
+        Process.wait(pid)
+      end
+
+      it "finishes the cleanup" do
+        expect(Timeout.timeout(5) { reaped.cleanup }).to be(true)
+        expect(reaped.alive?).to be(false)
+      end
+    end
+
     context "when we try to clean an already cleaned fork" do
       subject(:pidfd) { described_class.new(fork { nil }) }
 
