@@ -14,7 +14,7 @@ class Pidfd
     # it directly via syscalls
     attach_function :fdpid_open, :syscall, %i[long int uint], :int
     attach_function :fdpid_signal, :syscall, %i[long int int pointer uint], :int
-    attach_function :waitid, %i[int int pointer uint], :int
+    attach_function :waitid, %i[int int pointer uint], :int, blocking: true
 
     API_SUPPORTED = true
   # LoadError is a parent to FFI::NotFoundError
@@ -110,7 +110,11 @@ class Pidfd
     @mutex.synchronize do
       return if @cleaned
 
-      waitid(P_PIDFD, @pidfd, nil, WEXITED)
+      # A signal handled while we wait interrupts waitid with EINTR before the process is reaped
+      loop do
+        break unless waitid(P_PIDFD, @pidfd, nil, WEXITED) == -1
+        break unless FFI.errno == Errno::EINTR::Errno
+      end
 
       @pidfd_io.close
       @pidfd_select = nil

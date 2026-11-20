@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "warning"
+require "timeout"
 
 $VERBOSE = true
 
