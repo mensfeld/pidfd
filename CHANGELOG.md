@@ -1,5 +1,9 @@
 # Pidfd Changelog
 
+## Unreleased
+- [Fix] `#cleanup` releases the GVL while it waits for the process, so other threads keep running.
+- [Fix] `#cleanup` retries `waitid` when a handled signal interrupts it (`EINTR`), so it no longer returns before the process is reaped and leaves a zombie.
+
 ## 1.0.1 (2026-11-02)
 - [Breaking] Drop support for Ruby 3.2 (EOL March 2026). Minimum required Ruby is now 3.3.
 - [Enhancement] Use dynamic Ruby warning category opt-in in test helpers
